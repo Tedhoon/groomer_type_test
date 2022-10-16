@@ -1,0 +1,48 @@
+{% extends "global.html"%}
+{%load static%}
+
+{% block extra_head %}
+<style>
+    .container {
+        width: 100vw;
+        text-align: center;
+        font-family: 'DungGeunMo';
+    }
+</style>
+{% endblock %}
+{%block body%}
+    <div class="container">
+        <img src="" class="result_image" width="100%" style="max-width: 500px; border-radius:40px">
+        <h3>강아지 왕국을 구한 당신은...</h3>
+        <h1 class="result_text" style="color:rgb(255, 198, 89)"></h1>
+        <br>
+        
+        <div class="result_desc1" style="font-weight: bold;"></div>
+        <div style="text-align:initial; padding: 15px 45px 100px 45px;">
+            <div class="result_desc2"></div>
+        </div>  
+        <h2 style="color:rgb(255, 198, 89)">용사 현생 필살기</h2>
+        <img src="/static/image/hello.jpg" width="90%">
+        <button onclick="window.open('https://info.groomernote.com')" style="width: 100%; background-color:gray; height:50px; border:none;">그루머노트 더 알아보기</button>
+        <button onclick='location.href="{% url 'result' %}"' style="width: 100%; background-color:rgb(255, 198, 89); height:50px; border:none;">그루머노트 사용 신청하기</button>
+
+
+    </div>    
+
+  <script>
+    const datas = {
+        1: {result: "인간 컴퍼스 용사", desc1:"# 하이바 컷이 세상에서 제일 쉬웠어요", desc2: "일을 추진할 때, 게으름은 절대 용납할 수 없는 부지런한 당신은, 소환진을 그려 말 안듣는 댕댕이 미용을 동그랗게 끝냈습니다!<br><br>- 계획형 일잘러이자, 커트조차 칼 같은 애견 매용샵의 인간 컴퍼스 그 자체!<br>- 현실적이고 실용적인 것을 추구하는 (미)용사님은, 규칙을 중요시하는 편이예요."},
+        2: {result: "어쩔티비 저쩔용사", desc1:"# 어쩔 시크릿강쥐 리미티드 에디션~", desc2: "솔직당당한 매력의 활달한 당신은, 화려한 언변술로 댕댕이의 정신을 쏙 빼놓고 미용을 완료했습니다!<br><br>- 마당발 스타일에 친화력이 좋은 (미)용사님은, 여기저기에 관심을 기울이며 다방면으로 도움을 주곤 해요.<br>-창의적인 경향이 추진력과 만나, 목표가 생기면 굉장히 몰두하는 집중력 있는 사람이 바로 당신! 애견미용과도 딱 어울리는걸요?"},
+        3: {result: "제법 젠틀한 용사", desc1:"# 애견미용사인 나.. 제법 젠틀해요", desc2: "타고난 센스로 재치있고 유머러스한 당신은, 젠틀한 살인 미소로 말 안듣는 댕댕이를 얌전히 잠재웠습니다!<br><br>- 반려인과 반려동물을 행복하게 만들고 싶다는 강한 신념을 가지고 미용 일을 하는 멋쟁이에요.<br>- 타인의 감정을 민감하게 살피는 능력이 있어요. 너그럽고 온화한 성격이지만 선을 넘었을 때 누구보다 단호하답니다."},
+        4: {result: "변장한 댕댕용사", desc1:"# 비글보다 더 비글", desc2: "댕댕이가 변장한 건 아닐까 합리적 의심이 드는 당신은, 똥꼬발랄함으로 미용 온 강아지들의 기쒄을 제압하고 미용을 끝마쳤습니다!<br><br>- 사장님이면 두말할 것도 없고, 스탭이라면 사장님 몰래 서비스 간식을 막 퍼주는 스타일의 당신! (사장님 눈 감아..)<br>- 친절하고 발랄해 마냥 밝을 것 같지만, 의외로 관찰력이 좋고, 감정을 잘 캐치하는 눈치파 분위기메이커랍니다! 🤗"},
+    }
+    const idx = {{res}}
+    function init() {
+        document.querySelector('.result_image').src = '/static/image/r'+ idx + '.jpg';
+        document.querySelector('.result_text').innerHTML = datas[idx].result;  
+        document.querySelector('.result_desc1').innerHTML = datas[idx].desc1;  
+        document.querySelector('.result_desc2').innerHTML = datas[idx].desc2;  
+    }
+    init();
+  </script>
+{%endblock%}

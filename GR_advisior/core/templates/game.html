@@ -1,0 +1,269 @@
+{% extends "global.html"%}
+{%load static%}
+
+{% block extra_head %}
+    <style>
+        .game_box {
+            text-align: center;
+        }
+        .game_question {
+            font-family: 'DungGeunMo';
+            width: 300px;
+            font-size: 17px;
+        }
+        .game_question > span {
+            color: rgb(255, 198, 89);
+            font-size: 22px;
+        }
+        .image-box {
+            border : 3px solid rgb(255, 198, 89);
+            margin: 4px;
+            border-radius: 5px;
+
+        }
+        @media (max-width: 395px) {
+
+        }
+        .game-content {
+            border-color: rgb(255, 198, 89) !important; 
+            border-radius: 5px;
+        }
+        .game_scab {
+            display: flex;
+            justify-content: center;
+            margin-top: 25px;
+        }
+        .scab_inner {
+            margin: 0 30px;
+        }
+        .scab_inner > p {
+            font-size: 18px;
+            margin-bottom: 3px;    
+        }
+
+        .OX-wrapper {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'DungGeunMo';
+            font-size: 100px;
+            pointer-events: none;
+            position: absolute;
+            z-index: 10;
+        }
+        .correct {
+            display: none;
+            color: blue;
+            transition: all ease;
+            animation: fadein 1s;
+            -moz-animation: fadein 1s; /* Firefox */
+            -webkit-animation: fadein 1s; /* Safari and Chrome */
+            -o-animation: fadein 1s; /* Opera */
+        }
+        .not-correct {
+            display: none;
+            color: red;
+            animation: fadein 1s;
+            -moz-animation: fadein 1s; /* Firefox */
+            -webkit-animation: fadein 1s; /* Safari and Chrome */
+            -o-animation: fadein 1s; /* Opera */
+        }
+        @keyframes fadein {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        @-moz-keyframes fadein { /* Firefox */
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        @-webkit-keyframes fadein { /* Safari and Chrome */
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        @-o-keyframes fadein { /* Opera */
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .route_to_result {
+            width: 100%;
+            text-align: center;
+            font-family: 'DungGeunMo';
+            font-size: 50px;
+            color: #FFF96E;
+            display: none;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 100px;
+        }
+        .route-intro {
+            border : 3px solid #7F31F1;
+            margin: 4px;
+            border-radius: 5px;
+            width: 100%;
+            display: block;
+        }
+        .route-result {
+            border : 3px solid #7F31F1;
+            width: 70%;
+            font-size: 22px;
+            font-style: oblique;
+            margin: 30px 0;
+        }
+        .route-button {
+            margin-top: 30px;
+        }
+        .route-to-pass, .route-to-fail {
+            width: 100%;
+            font-size: 22px;
+            display: none;
+        }
+        .fail, .pass {
+            width: 100%;
+        }
+        .route-to-pass, .route-to-fail > div {
+            font-size: 18px;
+            color: white;
+        }
+        .title {
+            font-family: 'DungGeunMo';
+            position: relative;
+            top: 1px;
+            border: 4px solid;
+            border-radius: 0px 0px 3px 3px;
+        }
+    </style>
+{% endblock %}
+
+{%block body%}
+
+    <div class="game_box">
+        <div class="nes-container is-dark with-title game-content">
+            <p class="title"></p>
+            <p class="game_question" style="margin: 0 auto;"></p>
+        </div>
+        <div class="image-box">
+            <img class="game_image" width="300px" src="">
+        </div>
+        <div class="game-choice">
+            <button onclick="next_game();" class="start-btn nes-btn is-warning question1" style="width: 100%"></button>
+            <button onclick="next_game();" class="start-btn nes-btn is-warning question2" style="width: 100%"></button>
+  
+        </div>
+    </div>
+    <div class="route_to_result">
+        <div class="route-intro">
+            게임 끝
+        </div>
+        <div class="route-result">정답 갯수 : <span style="display: contents;" class="scab_count"></span> 개</div>
+        <div class="route-to-pass">
+            <div>비밀 참가코드가 적힌</div>
+            <button class="pass nes-btn is-warning" onclick='location.href="{% url 'result' %}"'>👉 초대장 받으러 가기</button>    
+        </div>
+        <div class="route-to-fail">
+            <div>우리는 깐부잖아요?</div>
+            <button class="fail nes-btn is-warning" onclick="window.location.reload()">🤙 다시 도전하기</button>
+        </div>
+    </div>
+    <div class="OX-wrapper">
+        <div class="correct">정답</div>
+        <div class="not-correct">땡!</div>
+    </div>
+{%endblock%}
+
+
+{%block script%}
+    <script>
+        let scabCount = 0;
+        let gameIndex = 1;
+    
+        const gameData = {
+            1: {question : "깜빡이는 눈 너머로 낯선 천장이 보인다.<br>주위를 살펴보자!"},
+            2: {question : "쪽지를 발견했다!"},
+            3: {question : "“당신은 애견(미)용사입니다.<br>악당에게 끌려간 국왕님을 구해주세요!”"},
+            4: {question : "길을 걷다가 갑자기 등장한 강아지 A와 마주쳤다!<br>A에게 당신이 건넬 말은?"},
+            5: {question : "동료가 된 A와 함께 모험을 떠나기로 했다!<br>지금 A와의 분위기는?"},
+            6: {question : "며칠동안의 여정 끝에 악당의 본거지를 알아냈다!<br>악당과 맞서기 위해서 당신이 할 일은?"},
+            7: {question : "국왕님을 구출하기 위해 작전을 세우는 당신과 A,<br>이때 당신이 세운 작전은?"},
+            8: {question : "악당의 집 앞까지 도착한 둘, 문이 닫혀있다.<br>이때 당신의 행동은?"},
+            9: {question : "문을 열자마자, 털이 덥수룩한 강아지 B 를 발견했다.<br>이때 떠오르는 생각은?"},
+            10: {question : "강아지 B는 꼬질꼬질 저주에 걸린 강아지 국왕님이었다.<br>국왕님께 걸린 저주를 미용으로 풀어보자!"},
+            11: {question : "앗! 저주가 너무 강력해서 풀리지 않았다!"},
+            12: {question : "저주를 풀 수 있는 최후의 보루!<br>나만의 필살기로 꼬질꼬질 저주를 풀어보자!"},
+        }
+
+        const gameAnswer = {
+            1: {text1:"OK!", text2: "OK!"},
+            2: {text1:"펼쳐서 내용 확인하기", text2: "펼쳐서 내용 확인하기"},
+            3: {text1:"내가 용사라니!!!오히려 좋아!", text2: "어차피 꿈일테니 한 번 가볼까..?"},
+            4: {text1:"너 내 동료가 돼라!", text2: "...누구지?"},
+            5: {text1:"너 어디서 왔어??", text2: "육포.. 드실래요?"},
+            6: {text1:"플랜 A to Z까지 대처방안을 세워놓는다.", text2: "이기기 위해 좋은 컨디션은 필수! 일단 푹 잔다."},
+            7: {text1:"바람의 방향을 계산해서..., 자세해서 다 적을 수 없다", text2: "쾅! 하면 우다다 달려나갑시다!"},
+            8: {text1:"열쇠 아저씨를 부른다.", text2: "자물쇠를 부수고 쳐들어간다."},
+            9: {text1:"와..엉킴털 추가비용 X1000000", text2: "일단 슬리커랑, 미스트 먼저 챙기고,,"},
+            10: {text1:"샴푸칠하고, 털도 깎고 아이 예쁘겠네~정신없이 말을 걸며 미용한다.", text2: "맛있는 간식으로 회유하며 조심스레 미용한다."},
+            11: {text1:"하... 빗질 3시간 했는데.. 내 손목", text2: "미용 말고 다른 방법을 찾아볼까?"},
+            12: {text1:"✨필살기 사용하기✨", text2: "✨필살기 사용하기✨"},
+        }
+
+        async function next_game(){
+            await gameIndex ++;
+                if (gameIndex < 13) {
+                    function nextGame () {
+                        document.querySelector('.game_image').src = '/static/image/'+ gameIndex + '.jpg';
+                        document.querySelector('.title').innerHTML = gameIndex;   
+                        document.querySelector('.game_question').innerHTML = gameData[gameIndex].question;
+                        document.querySelector('.question1').innerHTML = gameAnswer[gameIndex].text1;
+                        document.querySelector('.question2').innerHTML = gameAnswer[gameIndex].text2;
+                        document.querySelector('progress').value += 20; 
+                    }
+                    setTimeout(nextGame, 300)
+
+                } 
+                else {
+                    location.href="{% url 'answer' %}"
+                }
+
+                function correctRefresh () {
+                    document.querySelector('.correct').style.display = 'none';
+                    document.querySelector('.not-correct').style.display = 'none';
+                }
+                setTimeout(correctRefresh, 1000)
+            }
+
+        function scab_counter() {
+                next_game();
+            }
+
+        function init() {
+            document.querySelector('.scab_count').innerHTML = 0;    
+            document.querySelector('.title').innerHTML = 1;    
+            document.querySelector('.game_question').innerHTML = gameData[1].question;
+            document.querySelector('.game_image').src = '/static/image/1.jpg';
+            document.querySelector('.question1').innerHTML = gameAnswer[1].text1;
+            document.querySelector('.question2').innerHTML = gameAnswer[1].text2;
+        }
+
+        init();    
+    </script>  
+{%endblock%}

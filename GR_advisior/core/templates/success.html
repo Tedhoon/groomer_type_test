@@ -1,0 +1,71 @@
+{% extends "global.html"%}
+{%load static%}
+{%block extra_head%}
+    <style>
+        .top-bg {
+            width: 100vw;
+            background-size: contain;
+            background-repeat: no-repeat;
+            height: 100%;
+            position: absolute;
+            top:0;
+            z-index: 1;
+            background-position-x: center;
+            background-image: url('/static/image/top-background-bg.png');
+        }
+        .top-img{
+            position: relative;
+            z-index: 2;
+            top: 45px;
+            margin-bottom: 15px;
+        }
+        .bottom-img{
+            position: relative;
+            z-index: 2;
+            width: calc(100% + 50px);
+            top: 45px;
+        }
+        .btn-wrapper {
+            position: fixed;
+            bottom: 20px;
+            z-index: 3;
+            max-width: 600px;
+            width: calc(100% - 50px);
+        }
+        .channel-button {
+            width: 100%; 
+            font-family: 'NanumSquare_acB' !important;
+            height: 58px;
+            border-radius: 30px;
+            font-size: 18px;
+            background: #FFC224;
+            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+            border: none;
+            letter-spacing: -1.1px;
+        }
+        @media (max-width:374px) {
+            .channel-button {
+                font-size: 15px;
+            }
+        }
+    </style>
+{%endblock%}
+
+{%block body%}
+    <div class="top-bg"></div>
+    <img class="top-img" width="100%" src="{% static 'image/success-page-top.png' %}?dt={% now 'U' %}">
+
+    <img class="bottom-img" width="100%" src="{% static 'image/success-page-bottom.png' %}?dt={% now 'U' %}">
+    
+    <div class="btn-wrapper">
+        <button class="channel-button" onclick="window.open('https://pf.kakao.com/_uqtws/chat')">
+            <img width="28px" src="{% static 'image/kakao-logo.png' %}?dt={% now 'U' %}"> 그루머노트 카카오톡 채널 바로가기
+        </button>
+    </div>
+{%endblock%}
+
+{%block script%}
+  <script>
+  
+  </script>
+{%endblock%}

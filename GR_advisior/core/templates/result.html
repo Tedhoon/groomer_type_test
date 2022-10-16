@@ -1,0 +1,186 @@
+{% extends "global.html"%}
+{%load static%}
+{%block extra_head%}
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400&display=swap");
+
+        .card {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        max-width: 400px;
+        width: 100%;
+        height: 250px;
+        background-image: url(https://i.pinimg.com/originals/e7/d0/b1/e7d0b12ecb83a6044244c37360b01ad4.jpg);
+        background-color: #b29967;
+        cursor: pointer;
+        transform-style: preserve-3d;
+        transition: all 0.5s ease;
+        position: relative;
+        }
+        .card .front {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        backface-visibility: hidden;
+        }
+        .card .front .circle {
+        width: 70px;
+        height: 70px;
+        border: 7px solid #000;
+        border-radius: 50%;
+        margin-right: 0.5em;
+        }
+        .card .front .triangle {
+        position: relative;
+        border-left: 45px solid transparent;
+        border-right: 45px solid transparent;
+        border-bottom: 70px solid #000;
+        }
+        .card .front .triangle:before {
+        width: 68px;
+        height: 55px;
+        content: " ";
+        background: url(https://i.pinimg.com/originals/e7/d0/b1/e7d0b12ecb83a6044244c37360b01ad4.jpg) center center;
+        clip-path: polygon(50% 5%, 0% 100%, 100% 100%);
+        position: absolute;
+        top: 10px;
+        left: -34px;
+        }
+        .card .front .square {
+        width: 70px;
+        height: 70px;
+        border: 7px solid #000;
+        margin-left: 0.5em;
+        }
+
+        .back {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transform: rotateY(180deg);
+        }
+        .back .icon {
+        width: 50px;
+        height: 50px;
+        background-color: #485461;
+        background-image: linear-gradient(315deg, #485461 0%, #28313b 74%);
+        border-radius: 50%;
+        margin-right: 1em;
+        }
+        .back p {
+        font-weight: 400;
+        letter-spacing: 1px;
+        }
+
+        .flip-card {
+        transform: rotateY(180deg);
+        }
+
+        .form-wrapper {
+          margin-top: 30px;
+        }
+        .label-title {
+          margin: 20px 0 10px 0 !important;
+          font-size: 18px;
+        }
+        .is-inline {
+          flex-direction: column;
+          align-items: baseline !important;
+        }
+        .direction-desc{
+          position: relative;
+          font-size: 20px;
+          font-family: 'NanumSquare_acB';
+          text-align: center;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 300px;
+          margin-top: 20px;
+        }
+        @media (max-width:415px) {
+          .direction-desc{ font-size: 15px;}
+        }
+    </style>
+{%endblock%}
+
+{%block body%}
+    <div style="position: relative;">
+      <div class="direction-desc">
+        그루머노트 사용 신청
+      </div>
+    </div>
+    <form method="POST" action="{% url 'success' %}">
+      {%csrf_token%}
+      <div class="form-wrapper">
+        <div class="nes-field is-inline">
+          <label class="label-title" for="shop_name">    
+            <img width="30px;" src="{% static 'image/logo.png' %}">
+            샵 이름
+          </label>
+          <input required type="text" id="shop_name" name="shop_name" class="nes-input is-warning" placeholder="ex) 쭈리네묭실">
+        </div>
+        <div class="nes-field is-inline">
+          <label class="label-title" for="phone_number">
+            <img width="30px;" src="{% static 'image/logo.png' %}">
+            휴대폰 번호
+          </label>
+          <input required type="text" id="phone_number" name="phone_number" class="nes-input is-warning" placeholder="ex) 010-0000-0000">
+        </div>
+        <div class="nes-field is-inline"> 
+          <label class="label-title" for="instagram">
+            <img width="30px;" src="{% static 'image/logo.png' %}">
+            인스타그램 아이디
+          </label>
+          <input required type="text" id="instagram" name="instagram" class="nes-input is-warning" placeholder="ex) @zzoori_salon">
+        </div>
+        <label class="label-title" for="position">
+          <img width="30px;" src="{% static 'image/logo.png' %}">
+          샵 운영 방식
+        </label>
+        <div class="nes-select is-warning">
+          <select required id="position" name="position">
+            <option value="" disabled selected hidden>선택해주세요</option>
+            <option value="0">원장</option>
+            <option value="1">직원</option>
+          </select>
+        </div>
+        <div class="nes-field is-inline">
+          <label class="label-title" for="collabo_number">
+            <img width="30px;" src="{% static 'image/logo.png' %}">
+            함께 사용할 선생님 수(본인포함)
+          </label>
+          <input required type="text" id="collabo_number" name="collabo_number" class="nes-input is-warning" placeholder="ex) 3명">
+        </div>
+        <div class="detail-desc" style="margin-bottom: 15px; word-break: keep-all; font-size: 14px;">
+          · 그루머노트는 초대코드를 통해 샵 내의 선생님들과 예약 일정 공유가 가능합니다. 따라서 원장님, 혹은 선생님 중 <span style="color: #D83B72;">한 분만 사용 신청</span>을 하시면 샵의 모든 선생님들이 사용 가능합니다.<br>
+          · 혼자 사용하실 경우 <span style="color: #D83B72;">1</span>으로 기입해주세요.  
+        </div>
+
+        <div class="nes-field is-inline">
+          <label class="label-title" for="address">
+            <img width="30px;" src="{% static 'image/logo.png' %}">
+            초대장과 뱃지를 받으실 주소와 성함
+          </label>
+          <input required type="text" id="address" name="address" class="nes-input is-warning" placeholder="ex) 부산광역시 금정구 부산대학로 50번길 68, 00호 / 쭈리">
+        </div>
+        <div class="detail-desc" style="margin-bottom: 15px; word-break: keep-all; font-size: 14px;">
+          · 입력하신 주소는 상품 배송을 위한 용도로만 사용됩니다
+        </div>
+        
+      </div>
+
+      <input type="submit" style="width: 100%; font-family: 'DungGeunMo';" class="nes-btn is-warning" value="사용 신청 완료" onclick="alert('사용 신청이 완료되었습니다')">
+  </form>
+
+
+{%endblock%}
+
+{%block script%}
+  <script>
+    function register () {
+
+    }
+  </script>
+{%endblock%}

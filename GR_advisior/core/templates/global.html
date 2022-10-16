@@ -1,0 +1,71 @@
+{%load static%}
+
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- minify -->
+    <link href="https://unpkg.com/nes.css@2.3.0/css/nes.min.css" rel="stylesheet" />
+    <!-- latest -->
+    <link href="https://unpkg.com/nes.css@latest/css/nes.min.css" rel="stylesheet" />
+    <!-- core style only -->
+    <link href="https://unpkg.com/nes.css/css/nes-core.min.css" rel="stylesheet" />
+    <!-- <meta property="og:title" content="">
+    <meta property="og:description" content="">
+    <meta property="og:image" content="">
+    <meta name="naver-site-verification" content="" /> -->
+
+    <title>애견미용사 유형 테스트</title>
+    <link rel="shortcut icon" href="{% static 'image/favicon.ico' %}"/>
+    <link rel="icon" href="{% static 'image/favicon.ico' %}" type="image/x-icon">
+    <meta property="og:description" content="그루머노트, 애견미용사 유형 테스트"/>
+
+    <style>
+       
+        html, body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            color: black;
+        }
+        @font-face { 
+            font-family: 'DungGeunMo';
+            src: url('../static/font/DungGeunMo.ttf');
+        }
+        @font-face { 
+            font-family: 'NanumSquare_acR';
+            src: url('../static/font/NanumSquare_acR.ttf');
+        } 
+        @font-face { 
+            font-family: 'NanumSquare_acB';
+            src: url('../static/font/NanumSquare_acB.ttf');
+        }
+        .background {
+            width: 100vw;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 25px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: 'NanumSquare_acR';
+            overflow: hidden;
+        }
+        button {
+            font-family: 'DungGeunMo';
+        }
+    </style>
+    {% block extra_head %}{% endblock %}
+</head>
+  
+<body>
+    <div class="background">
+        {% block body %}{% endblock %}
+    </div>
+    {% block script %}{% endblock %}
+</body>
+</html>
